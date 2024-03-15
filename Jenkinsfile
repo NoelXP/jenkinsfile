@@ -1,13 +1,14 @@
 pipeline {
-    agent any
+
+    agent { dockerfile true }
     
     stages {
         stage('Build') {
             steps {
                 echo 'Building...'
                 // Add your build steps here
-                docker.build('my-image:latest') {
-                    dockerfilePath '/Dockerfile'
+                sh 'node --version'
+                sh 'svn --version'
                 }
             }
         }
@@ -44,10 +45,6 @@ pipeline {
             steps {
                 echo 'Deploying...'
                 // Add your deployment steps here
-                docker.withRegistry('localhost:5000') {
-                    docker.image('my-image:latest').push()
-                }
-                docker.image('my-image:latest').run()
             }
         }
     }
