@@ -6,6 +6,9 @@ pipeline {
             steps {
                 echo 'Building...'
                 // Add your build steps here
+                docker.build('my-image:latest') {
+                    dockerfilePath '/Dockerfile'
+                }
             }
         }
         
@@ -41,6 +44,10 @@ pipeline {
             steps {
                 echo 'Deploying...'
                 // Add your deployment steps here
+                docker.withRegistry('localhost:5000') {
+                    docker.image('my-image:latest').push()
+                }
+                docker.image('my-image:latest').run()
             }
         }
     }
